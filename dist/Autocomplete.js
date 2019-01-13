@@ -171,7 +171,7 @@ var Autocomplete = (function (_super) {
         var _this = this;
         var props = this.props, state = this.state, cls = this.props.className || "";
         var len = Array.isArray(this.state.items) ? this.state.items.length : Object.keys(this.state.items).length;
-        return (React.createElement("div", { className: "autocomplete " + cls, ref: "autocomplete-element", onBlur: this.blurItems },
+        return (React.createElement("div", { className: "autocomplete " + cls, onBlur: this.blurItems },
             React.createElement("input", { className: "autocomplete__input", type: "text", placeholder: props.placeholder && props.placeholder || "", onChange: this.triggerInputUpdate, ref: function (e) { _this.inputEl = e; }, onKeyDown: this.keyPressed, onFocus: this.showItems }),
             (props.children && len > 0) &&
                 React.createElement("div", { className: "autocomplete__menu", "data-visible": state.visible }, Array.isArray(state.items) &&

@@ -1,9 +1,9 @@
 {
   "name": "studio-auto-complete",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "React autocomplete component, an input controller which will show all available options based on the inputs value",
   "main": "./dist/Autocomplete.js",
-  "types":"./dist/Autocomplete.d.ts",
+  "types": "./dist/Autocomplete.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm ./dist && tsc"

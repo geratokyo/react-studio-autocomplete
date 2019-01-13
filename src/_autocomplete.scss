@@ -1,0 +1,96 @@
+/*************************/
+/////// GENERAL VARS //////
+/*************************/
+
+//TODO vars
+
+/*************************/
+/////// CUSTOM VARS /////// 
+/*************************/
+
+//TODO vars
+
+/*************************/
+///// TYPOGRAPHY VARS /////
+/*************************/
+
+//TODO vars
+
+/*************************/
+///// COMPONENT CODE //////
+/*************************/
+.autocomplete{
+    position: relative;
+
+
+    &__chip{
+        &:hover{
+            cursor: pointer;
+        }
+    }
+
+    &__menu{
+        position: absolute;
+        top:100% ; 
+        left:0px; 
+        width:100%; 
+        height: auto;
+        z-index: 99999;
+        
+        &[data-visible="false"]{
+            display: none;
+        }
+    
+        &[data-visible="true"]{
+            display: block;
+        }
+    }
+    &__item--client{
+        margin:0px;
+        z-index: 9;
+        border-radius: 0px;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 2px 1px -2px rgba(0, 0, 0, 0.2);
+    
+        -webkit-transition: background-color 0.1s cubic-bezier(0,0,0,1);
+        -moz-transition: background-color 0.1s cubic-bezier(0,0,0,1);
+        -o-transition: background-color 0.1s cubic-bezier(0,0,0,1);
+        transition: background-color 0.1s cubic-bezier(0,0,0,1);
+        &:hover{
+            background-color:color("blue","base")!important;
+            color:color("grey","lighten-4");
+            cursor: pointer;
+        }
+    }
+    &__input{
+        margin-bottom:0px!important;
+    }
+}
+
+
+@include SmallDevice{
+    .autocomplete{
+    }
+}
+
+
+@include MediumDevice{
+    .autocomplete{
+    }
+}
+
+@include OnEmbedDevice(){
+    .autocomplete{
+
+    }
+}
+
+@include MediumDevice{
+    .autocomplete{
+    }
+}
+
+
+/*************************/
+/////// CUSTOM CODE /////// 
+/*************************/
+//TODO code

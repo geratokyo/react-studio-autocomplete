@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "target": "es5",
+        "module": "commonjs",
+        "jsx": "react",
+        "lib": [
+            "dom",
+            "es2015",
+            "es2016"
+        ],
+        "declaration": true,
+        "sourceMap": true,
+        "removeComments": true,
+    },
+    "exclude": [
+        "node_modules",
+        "jspm_packages",
+        "vendor",
+        "resources"
+    ],
+    "include": [
+        "./src/**/*.tsx",
+        "./src/**/*.ts"
+    ]
+}

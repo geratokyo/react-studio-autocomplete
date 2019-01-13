@@ -247,7 +247,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         let len = Array.isArray(this.state.items) ? this.state.items.length : Object.keys(this.state.items).length;
         return (
             <div className={"autocomplete " + cls}
-                ref="autocomplete-element"
                 onBlur={this.blurItems}>
                 <input
                     className="autocomplete__input"

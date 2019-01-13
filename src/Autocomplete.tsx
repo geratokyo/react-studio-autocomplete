@@ -289,8 +289,6 @@ const CLONE_ELEMENTS = (child: React.ReactElement<any>, item, idx, currentItemId
         ...child.props,
         key: idx,
         className: (currentItemIdx == idx ? child.props.className + " grey lighten-3" : child.props.className),
-        label: child.props.label(item),
-        imgSrc: child.props.imgSrc(item),
         mouseEnter: () => { component.setState({ currentItemIdx: idx }); },
         onClick: () => { component.executeSelection(item); }
     });

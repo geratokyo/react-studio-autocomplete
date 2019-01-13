@@ -193,7 +193,7 @@ var Autocomplete = (function (_super) {
 }(React.Component));
 exports.Autocomplete = Autocomplete;
 var CLONE_ELEMENTS = function (child, item, idx, currentItemIdx, component) {
-    return React.cloneElement(child, __assign({}, child.props, { key: idx, className: (currentItemIdx == idx ? child.props.className + " grey lighten-3" : child.props.className), label: child.props.label(item), imgSrc: child.props.imgSrc(item), mouseEnter: function () { component.setState({ currentItemIdx: idx }); }, onClick: function () { component.executeSelection(item); } }));
+    return React.cloneElement(child, __assign({}, child.props, { key: idx, className: (currentItemIdx == idx ? child.props.className + " grey lighten-3" : child.props.className), mouseEnter: function () { component.setState({ currentItemIdx: idx }); }, onClick: function () { component.executeSelection(item); } }));
 };
 function GET_OBJECT_ITEMS(items, props, component) {
     return Object.keys(items).map(function (idx, ii) {

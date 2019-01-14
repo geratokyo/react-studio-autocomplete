@@ -78,7 +78,9 @@ export interface AutocompleteProps {
      */
     shouldAlwaysShowOptions?: boolean;
 
-
+    /**
+     * function that returns a custom component as a list item
+     */
     customComponent?: (item: any) => React.ReactNode;
 }
 

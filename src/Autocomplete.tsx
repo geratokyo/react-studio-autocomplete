@@ -27,7 +27,13 @@ export interface AutocompleteProps {
     /**
      * This is a value of the attribute the data will be filtered by
      */
-    searchAttribute: string;
+    searchAttribute?: string;
+
+
+    /**
+     * This is a value of the attribute the data shown in the list
+     */
+    labelAttribute?:string;
 
     /**
      * A function called when a change on input is triggered
@@ -64,13 +70,16 @@ export interface AutocompleteProps {
      * Function to be called when an item is selected either 
      * with mouse click or keyboad enter
      */
-    onItemSelected?: (e:any) => void;
+    onItemSelected?: (event:React.SyntheticEvent<any>, item: any) => void;
 
 
     /**
      * true if the options should always be visible
      */
     shouldAlwaysShowOptions?: boolean;
+
+
+    customComponent?: (item: any) => React.ReactNode;
 }
 
 export interface AutocompleteState {
@@ -98,10 +107,14 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         shouldExecuteOnEnter: false,
         charInputNumber: 0,
         shouldClearOnExecution: true,
-        shouldAlwaysShowOptions: false
+        shouldAlwaysShowOptions: false,
+        customComponent: null,
+        searchAttribute:null,
+        labelAttribute:null,
     };
 
     componentDidMount() {
+
         this.setState({
             items: this.props.defaultItems || this.props.items,
             visible: this.props.shouldAlwaysShowOptions
@@ -141,13 +154,13 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         }
     }
 
-    getDropdownItems = ()=>{
+    getDropdownItems = () => {
         if (this.props.defaultItems && this.inputEl.value.length <= 1) {
             return this.props.defaultItems;
-        }else if(this.inputEl.value.length <= 1){
+        } else if (this.inputEl.value.length <= 1) {
             return this.props.items
-        }else {
-            const filterItems = (e:any) => {
+        } else {
+            const filterItems = (e: any) => {
                 let kk = (e[this.props.searchAttribute]).toLowerCase();
                 return kk.includes(this.inputEl.value.toLowerCase());
             };
@@ -160,7 +173,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
 
     triggerInputUpdate = () => {
-        let s=this.getDropdownItems();
+        let s = this.getDropdownItems();
 
         if (this.props.onInputChange) {
             this.props.onInputChange(this.inputEl.value);
@@ -181,7 +194,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
             this.setToDownItem();
         } else if (e.keyCode == "13") {
             if (this.state.items[this.state.currentItemIdx]) {
-                this.executeSelection(this.state.items[this.state.currentItemIdx]);
+                this.executeSelection(e,this.state.items[this.state.currentItemIdx]);
             }
         }
     }
@@ -232,19 +245,19 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         }
     }
 
-    executeSelection = (item: any) => {
+    executeSelection = (event:React.SyntheticEvent<any>, item: any) => {
         this.blurItems();
         if (this.props.shouldClearOnExecution) {
             this.inputEl.value = ""
         }
-        this.props.onItemSelected(item)
+        this.props.onItemSelected(event,item)
     }
 
     render() {
         let props = this.props,
             state = this.state,
-            cls = this.props.className || "";
-        let len = Array.isArray(this.state.items) ? this.state.items.length : Object.keys(this.state.items).length;
+            cls = props.className || "";
+        let len = Array.isArray(state.items) ? state.items.length : Object.keys(state.items).length;
         return (
             <div className={"autocomplete " + cls}
                 onBlur={this.blurItems}>
@@ -257,70 +270,40 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
                     onKeyDown={this.keyPressed}
                     onFocus={this.showItems}
                 />
+                <ul className="autocomplete__menu"
+                    data-visible={state.visible}>
+                    {
+                        props.customComponent &&
+                        _.map(state.items, (e:any, ii:number) => {
+                            return <li
+                                className="autocomplete__item"
+                                onClick={(event:React.SyntheticEvent<any>)=>{this.executeSelection(event, e)}}
+                                onMouseEnter={()=>{this.setState({ currentItemIdx: ii })}}
+                                key={ii}>
+                                {
+                                    props.customComponent(e)
+                                }
+                            </li>
+                        })
+                        ||
+                        _.map(state.items, (e: any, ii:number) => {
+                            let s = props.labelAttribute ? e[props.labelAttribute] : e;
+                            return <li
+                                className="autocomplete__item"
+                                onClick={(event:React.SyntheticEvent<any>)=>{this.executeSelection(event, e)}}
+                                onMouseEnter={()=>{this.setState({ currentItemIdx: ii })}}
+                                key = { ii } >
+                            { 
+                                props.labelAttribute && 
+                                s[props.labelAttribute] ||
+                                s
+                            }
+                            </li>
+                })
+            }
+                </ul>
 
-                {
-                    (props.children && len > 0) &&
-                    <div className="autocomplete__menu"
-                        data-visible={state.visible}>
-                        {
-                            Array.isArray(state.items) &&
-                            GET_ARRAY_ITEMS(state.items, props, this)
-                            ||
-                            GET_OBJECT_ITEMS(state, props, this)
-                        }
-
-                    </div>
-                }
             </div>
         )
     }
-}
-
-/**
- * Return a cloned element for that will appear on the Autocomplete dropdown
- * @param child Child component passed from the parent element
- * @param item The object from where information is taken
- * @param idx Index of the object in the array
- * @param state Autocomplete state
- * @param component Autocomplete component
- */
-const CLONE_ELEMENTS = (child: React.ReactElement<any>, item, idx, currentItemIdx, component) => {
-    return React.cloneElement(child, {
-        ...child.props,
-        key: idx,
-        className: (currentItemIdx == idx ? child.props.className + " grey lighten-3" : child.props.className),
-        mouseEnter: () => { component.setState({ currentItemIdx: idx }); },
-        onClick: () => { component.executeSelection(item); }
-    });
-};
-
-
-/**
- * This function will loop through an object to show in the dropdown
- * by selecting the keys of the object
- * @param state Autocomplete component state
- * @param props Autocomplete component props
- * @param component Autocomplete component
- */
-function GET_OBJECT_ITEMS(items: any, props, component): React.ReactNode {
-    return Object.keys(items).map((idx, ii) => {
-        let e = items[idx];
-
-        return React.Children.map(props.children,
-            (child: React.ReactElement<any>) => CLONE_ELEMENTS(child, e, ii, component.state.currentItemIdx, component))[0]
-
-    });
-}
-
-/**
- * This function will loop through an array of objects to show in the dropdown
- * @param state Autocomplete component state
- * @param props Autocomplete component props
- * @param component Autocomplete component
- */
-function GET_ARRAY_ITEMS(items: any[], props, component): React.ReactNode {
-    return (items as any[]).map((e, ii) => {
-        return React.Children.map(props.children,
-            (child: React.ReactElement<any>) => CLONE_ELEMENTS(child, e, ii, component.state.currentItemIdx, component))[0];
-    });
 }

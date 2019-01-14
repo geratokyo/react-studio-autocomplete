@@ -1,0 +1,41 @@
+/*************************/
+/*************************/
+/*************************/
+/*************************/
+/*************************/
+/*************************/
+/*************************/
+/*************************/
+.autocomplete {
+  position: relative; }
+  .autocomplete__chip:hover {
+    cursor: pointer; }
+  .autocomplete__menu {
+    position: absolute;
+    top: 100%;
+    left: 0px;
+    width: 100%;
+    height: auto;
+    z-index: 99999;
+    list-style: none;
+    margin: 0px;
+    padding: 0px; }
+    .autocomplete__menu[data-visible="false"] {
+      display: none; }
+    .autocomplete__menu[data-visible="true"] {
+      display: block; }
+  .autocomplete__item {
+    margin: 0px;
+    z-index: 9;
+    -webkit-transition: background-color 0.1s cubic-bezier(0, 0, 0, 1);
+    -moz-transition: background-color 0.1s cubic-bezier(0, 0, 0, 1);
+    -o-transition: background-color 0.1s cubic-bezier(0, 0, 0, 1);
+    transition: background-color 0.1s cubic-bezier(0, 0, 0, 1); }
+    .autocomplete__item:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+      cursor: pointer; }
+  .autocomplete__input {
+    width: 100%;
+    box-sizing: border-box; }
+
+/*# sourceMappingURL=main.scss.map */

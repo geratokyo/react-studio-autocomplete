@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+      "rootDir": "./src",
+      "outDir": "./dist",
+      "target": "es5",
+      "module": "commonjs",
+      "jsx": "react"
+  },
+  "exclude": [
+      "node_modules",
+      "jspm_packages",
+      "vendor",
+      "resources"
+  ]
+}

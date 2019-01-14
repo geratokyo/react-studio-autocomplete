@@ -12,17 +12,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
 var _ = require("lodash");
@@ -71,7 +60,7 @@ var Autocomplete = (function (_super) {
             }
             else if (e.keyCode == "13") {
                 if (_this.state.items[_this.state.currentItemIdx]) {
-                    _this.executeSelection(_this.state.items[_this.state.currentItemIdx]);
+                    _this.executeSelection(e, _this.state.items[_this.state.currentItemIdx]);
                 }
             }
         };
@@ -113,12 +102,12 @@ var Autocomplete = (function (_super) {
                 }, 200);
             }
         };
-        _this.executeSelection = function (item) {
+        _this.executeSelection = function (event, item) {
             _this.blurItems();
             if (_this.props.shouldClearOnExecution) {
                 _this.inputEl.value = "";
             }
-            _this.props.onItemSelected(item);
+            _this.props.onItemSelected(event, item);
         };
         _this.state = {
             items: [],
@@ -169,15 +158,21 @@ var Autocomplete = (function (_super) {
     };
     Autocomplete.prototype.render = function () {
         var _this = this;
-        var props = this.props, state = this.state, cls = this.props.className || "";
-        var len = Array.isArray(this.state.items) ? this.state.items.length : Object.keys(this.state.items).length;
+        var props = this.props, state = this.state, cls = props.className || "";
+        var len = Array.isArray(state.items) ? state.items.length : Object.keys(state.items).length;
         return (React.createElement("div", { className: "autocomplete " + cls, onBlur: this.blurItems },
             React.createElement("input", { className: "autocomplete__input", type: "text", placeholder: props.placeholder && props.placeholder || "", onChange: this.triggerInputUpdate, ref: function (e) { _this.inputEl = e; }, onKeyDown: this.keyPressed, onFocus: this.showItems }),
-            (props.children && len > 0) &&
-                React.createElement("div", { className: "autocomplete__menu", "data-visible": state.visible }, Array.isArray(state.items) &&
-                    GET_ARRAY_ITEMS(state.items, props, this)
-                    ||
-                        GET_OBJECT_ITEMS(state, props, this))));
+            React.createElement("ul", { className: "autocomplete__menu", "data-visible": state.visible }, props.customComponent &&
+                _.map(state.items, function (e, ii) {
+                    return React.createElement("li", { className: "autocomplete__item", onClick: function (event) { _this.executeSelection(event, e); }, onMouseEnter: function () { _this.setState({ currentItemIdx: ii }); }, key: ii }, props.customComponent(e));
+                })
+                ||
+                    _.map(state.items, function (e, ii) {
+                        var s = props.labelAttribute ? e[props.labelAttribute] : e;
+                        return React.createElement("li", { className: "autocomplete__item", onClick: function (event) { _this.executeSelection(event, e); }, onMouseEnter: function () { _this.setState({ currentItemIdx: ii }); }, key: ii }, props.labelAttribute &&
+                            s[props.labelAttribute] ||
+                            s);
+                    }))));
     };
     Autocomplete.defaultProps = {
         hasBlur: true,
@@ -187,23 +182,12 @@ var Autocomplete = (function (_super) {
         shouldExecuteOnEnter: false,
         charInputNumber: 0,
         shouldClearOnExecution: true,
-        shouldAlwaysShowOptions: false
+        shouldAlwaysShowOptions: false,
+        customComponent: null,
+        searchAttribute: null,
+        labelAttribute: null,
     };
     return Autocomplete;
 }(React.Component));
 exports.Autocomplete = Autocomplete;
-var CLONE_ELEMENTS = function (child, item, idx, currentItemIdx, component) {
-    return React.cloneElement(child, __assign({}, child.props, { key: idx, className: (currentItemIdx == idx ? child.props.className + " grey lighten-3" : child.props.className), mouseEnter: function () { component.setState({ currentItemIdx: idx }); }, onClick: function () { component.executeSelection(item); } }));
-};
-function GET_OBJECT_ITEMS(items, props, component) {
-    return Object.keys(items).map(function (idx, ii) {
-        var e = items[idx];
-        return React.Children.map(props.children, function (child) { return CLONE_ELEMENTS(child, e, ii, component.state.currentItemIdx, component); })[0];
-    });
-}
-function GET_ARRAY_ITEMS(items, props, component) {
-    return items.map(function (e, ii) {
-        return React.Children.map(props.children, function (child) { return CLONE_ELEMENTS(child, e, ii, component.state.currentItemIdx, component); })[0];
-    });
-}
 //# sourceMappingURL=Autocomplete.js.map

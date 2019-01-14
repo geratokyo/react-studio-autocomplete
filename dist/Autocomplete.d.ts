@@ -6,15 +6,17 @@ export interface AutocompleteProps {
     placeholder?: string;
     items: any[] | Dictionary<any>;
     defaultItems?: any[] | Dictionary<any>;
-    searchAttribute: string;
+    searchAttribute?: string;
+    labelAttribute?: string;
     onInputChange?: (value: string) => void;
     onEnterPress?: (value: any) => void;
     hasBlur?: boolean;
     shouldExecuteOnEnter?: boolean;
     charInputNumber?: number;
     shouldClearOnExecution?: boolean;
-    onItemSelected?: (e: any) => void;
+    onItemSelected?: (event: React.SyntheticEvent<any>, item: any) => void;
     shouldAlwaysShowOptions?: boolean;
+    customComponent?: (item: any) => React.ReactNode;
 }
 export interface AutocompleteState {
     currentItemIdx: number;
@@ -36,6 +38,6 @@ export declare class Autocomplete extends React.Component<AutocompleteProps, Aut
     showItems: () => void;
     getSelection: () => any;
     blurItems: () => void;
-    executeSelection: (item: any) => void;
+    executeSelection: (event: React.SyntheticEvent<any, Event>, item: any) => void;
     render(): JSX.Element;
 }

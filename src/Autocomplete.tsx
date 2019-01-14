@@ -103,9 +103,12 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     public static defaultProps: Partial<AutocompleteProps> = {
         hasBlur: true,
-        onInputChange: () => { },
-        onEnterPress: () => { },
-        onItemSelected: () => { },
+        className:"",
+        defaultItems:null,
+        placeholder:"",
+        onInputChange: null,
+        onEnterPress: null,
+        onItemSelected: null,
         shouldExecuteOnEnter: false,
         charInputNumber: 0,
         shouldClearOnExecution: true,
@@ -266,7 +269,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
                 <input
                     className="autocomplete__input"
                     type="text"
-                    placeholder={props.placeholder && props.placeholder || ""}
+                    placeholder={props.placeholder}
                     onChange={this.triggerInputUpdate}
                     ref={(e) => { this.inputEl = e }}
                     onKeyDown={this.keyPressed}

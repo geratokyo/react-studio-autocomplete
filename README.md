@@ -1,7 +1,9 @@
 #studio-auto-complete
+
 This is an auto-complete component for reactJS.
 
 ##Props
+
 | name | type | description  |
 | ------------- |-------------| -----|
 | className?:| string | Class name of the component |
@@ -24,6 +26,7 @@ This is an auto-complete component for reactJS.
 ##Usage
 
 ####Simple example
+
 ```typescript
 <Autocomplete
     className="example__autocomplete"

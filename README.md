@@ -1,8 +1,8 @@
-#studio-auto-complete
+# studio-auto-complete
 
 This is an auto-complete component for reactJS.
 
-##Props
+## Props
 
 | name | type | description  |
 | ------------- |-------------| -----|
@@ -23,9 +23,9 @@ This is an auto-complete component for reactJS.
 | customComponent | (item: any) => React.ReactNode |function that returns a custom component as a list item |
 
 
-##Usage
+## Usage
 
-####Simple example
+#### Simple example
 
 ```typescript
 <Autocomplete
@@ -44,7 +44,7 @@ This is an auto-complete component for reactJS.
 
 
 
-####Custom component example
+#### Custom component example
 
 ```typescript
 <Autocomplete

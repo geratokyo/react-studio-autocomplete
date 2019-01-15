@@ -25,6 +25,11 @@ This is an auto-complete component for reactJS.
 
 ## Usage
 
+```typescript
+import {Autocomplete} from 'studio-auto-complete'; 
+import "path/to/node_modules/studio-auto-complete/src/autocomplete.scss";
+```
+
 #### Simple example
 
 ```typescript

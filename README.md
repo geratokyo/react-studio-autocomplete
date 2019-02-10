@@ -18,7 +18,7 @@ This is an auto-complete component for reactJS.
 | shouldExecuteOnEnter? | boolean | null | OnClick execute the on enter function |
 | charInputNumber? | number | 0 | number of characters to input in order to show the dropdown |
 | shouldClearOnExecution? | boolean | true | if input should clear on execution |
-| onItemSelected? | (event:React.SyntheticEvent\<any\>, item: any) => void; | null | Function to be called when an item is selected  |either with mouse click or keyboad enter |
+| onItemSelected? | (event: React.SyntheticEvent\<any\>, item: any) => void; | null | Function to be called when an item is selected  |either with mouse click or keyboad enter |
 | shouldAlwaysShowOptions? | boolean | false | true if the options should always be visible |
 | customComponent? | (item: any) => React.ReactNode | null | function that returns a custom component as a list item |
 

@@ -1,7 +1,7 @@
 {
   "name": "studio-auto-complete",
   "version": "0.0.9",
-  "description": "React autocomplete component, an input controller which will show all available options based on the inputs value",
+  "description": "React autocomplete component, an input controller which will show all available options in a dropdown menu",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
